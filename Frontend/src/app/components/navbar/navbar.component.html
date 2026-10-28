@@ -1,78 +1,53 @@
+
 <nav class="app-navbar">
-
-  <!-- Parte 1: Marca -->
   <div class="navbar-brand-section">
-
-    <a
-      routerLink="/"
-      class="navbar-brand"
-    >
+    <a routerLink="/login" class="navbar-brand">
       <div class="brand-icon">
         <i class="bi bi-calendar-event"></i>
       </div>
-
-      <span class="brand-name">
-        EventApp
-      </span>
+      <span class="brand-name">EventApp</span>
     </a>
-
   </div>
 
-
-  <!-- Parte 2: Navegación -->
   <div class="navbar-navigation">
-
-    @for(item of navbarConfig; track item.url){
+    @for (item of navbarConfig; track item.url) {
       <a
         [routerLink]="item.url"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
         class="nav-link"
       >
-        <i class="bi bi-ticket-perforated"></i>
+        <i [class]="'bi bi-' + item.icon"></i>
         <span>{{ item.label }}</span>
       </a>
     }
-
-
   </div>
 
-
-  <!-- Parte 3: Usuario -->
   <div class="navbar-user-section">
-
     <div class="user-info">
-
       <div class="user-avatar">
-        JD
+        {{ getRole() === 'agent' ? 'AG' : 'CL' }}
       </div>
 
       <div class="user-data">
         <span class="user-name">
-          Juan David
+          {{ getRole() === 'agent' ? 'Agente' : 'Cliente' }}
         </span>
-
         <span class="user-role">
-          Cliente
+          {{ getRole() === 'agent' ? 'Agente' : 'Cliente' }}
         </span>
       </div>
-
     </div>
 
     <div class="user-actions">
-
       <button
         type="button"
         class="logout-button"
+        (click)="cerrarSesion()"
       >
         <i class="bi bi-box-arrow-right"></i>
-
-        <span>
-          Cerrar sesión
-        </span>
+        <span>Cerrar sesión</span>
       </button>
-
     </div>
-
   </div>
-
 </nav>

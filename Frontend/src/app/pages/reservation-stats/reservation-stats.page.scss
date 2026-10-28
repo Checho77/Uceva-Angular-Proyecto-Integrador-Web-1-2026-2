@@ -1,0 +1,64 @@
+
+.summary-card {
+  position: relative;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0.85rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.06);
+}
+
+.summary-label {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.summary-value {
+  font-size: 2rem;
+  font-weight: 750;
+  color: #212529;
+  overflow-wrap: anywhere;
+}
+
+.summary-money {
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+}
+
+.summary-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  color: #0d6efd;
+  opacity: 0.75;
+}
+
+.chart-row {
+  margin-bottom: 1.5rem;
+}
+
+.chart-row:last-child {
+  margin-bottom: 0;
+}
+
+.progress {
+  height: 1rem;
+  border-radius: 0.5rem;
+  background-color: #e9ecef;
+}
+
+.progress-bar {
+  background-color: #0d6efd;
+  border-radius: 0.5rem;
+  transition: width 0.4s ease;
+}
+
+.table th,
+.table td {
+  padding: 0.9rem 1rem;
+}
+
+.table thead th {
+  white-space: nowrap;
+  font-size: 0.85rem;
+}

@@ -1,0 +1,141 @@
+
+<section class="container py-4">
+  <div class="mb-4">
+    <h2 class="fw-bold mb-1">Estadísticas de reservas</h2>
+    <p class="text-secondary mb-0">
+      Consulta las reservas y los ingresos confirmados por evento.
+    </p>
+  </div>
+
+  @if (cargando) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="text-secondary mt-3">Calculando estadísticas...</p>
+    </div>
+  } @else if (error) {
+    <div class="alert alert-danger" role="alert">{{ error }}</div>
+  } @else if (estadisticas.length === 0) {
+    <div class="alert alert-info" role="status">
+      No hay estadísticas disponibles.
+    </div>
+  } @else {
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-md-4">
+        <div class="card summary-card h-100">
+          <div class="card-body">
+            <div class="summary-label">Total de reservas</div>
+            <div class="summary-value">{{ totalReservas }}</div>
+            <i class="bi bi-ticket-perforated summary-icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="card summary-card h-100">
+          <div class="card-body">
+            <div class="summary-label">Personas confirmadas</div>
+            <div class="summary-value">{{ totalPersonasConfirmadas }}</div>
+            <i class="bi bi-people summary-icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="card summary-card h-100">
+          <div class="card-body">
+            <div class="summary-label">Ingresos confirmados</div>
+            <div class="summary-value summary-money">
+              {{ ingresosTotales | currency:'COP':'symbol-narrow':'1.0-0' }}
+            </div>
+            <i class="bi bi-cash-coin summary-icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body p-4">
+        <h3 class="h5 fw-bold mb-1">Reservas por evento</h3>
+        <p class="text-secondary small mb-4">
+          Comparación del número total de reservas registradas.
+        </p>
+
+        @for (item of estadisticas; track item.id_evento) {
+          <div class="chart-row">
+            <div class="d-flex justify-content-between gap-3 mb-2">
+              <span class="fw-semibold">{{ item.nombre_evento }}</span>
+              <span class="text-secondary">{{ item.total_reservas }}</span>
+            </div>
+
+            <div
+              class="progress"
+              role="progressbar"
+              [attr.aria-label]="'Reservas de ' + item.nombre_evento"
+              [attr.aria-valuenow]="item.total_reservas"
+              aria-valuemin="0"
+              [attr.aria-valuemax]="maxReservas"
+            >
+              <div
+                class="progress-bar"
+                [style.width.%]="porcentajeReservas(item.total_reservas)"
+              ></div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-0">
+        <div class="p-4 pb-2">
+          <h3 class="h5 fw-bold mb-1">Detalle de reservas</h3>
+          <p class="text-secondary small mb-0">
+            Información consolidada por evento.
+          </p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Evento</th>
+                <th class="text-center">Total reservas</th>
+                <th class="text-center">No canceladas</th>
+                <th class="text-center">Personas confirmadas</th>
+                <th class="text-end">Ingresos confirmados</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (item of estadisticas; track item.id_evento) {
+                <tr>
+                  <td class="fw-semibold">{{ item.nombre_evento }}</td>
+                  <td class="text-center">{{ item.total_reservas }}</td>
+                  <td class="text-center">{{ item.reservas_no_canceladas }}</td>
+                  <td class="text-center">{{ item.personas_confirmadas }}</td>
+                  <td class="text-end text-nowrap">
+                    {{ item.ingresos_confirmados | currency:'COP':'symbol-narrow':'1.0-0' }}
+                  </td>
+                </tr>
+              }
+            </tbody>
+
+            <tfoot class="table-light">
+              <tr>
+                <th>Totales</th>
+                <th class="text-center">{{ totalReservas }}</th>
+                <th class="text-center">{{ totalNoCanceladas }}</th>
+                <th class="text-center">{{ totalPersonasConfirmadas }}</th>
+                <th class="text-end text-nowrap">
+                  {{ ingresosTotales | currency:'COP':'symbol-narrow':'1.0-0' }}
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  }
+</section>
